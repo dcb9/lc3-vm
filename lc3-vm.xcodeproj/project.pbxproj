@@ -25,6 +25,9 @@
 /* Begin PBXFileReference section */
 		C42C0E4F2823C5C900A3940D /* lc3-vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "lc3-vm"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C42C0E522823C5C900A3940D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C42C0E592823CE8800A3940D /* 2048.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2048.obj; sourceTree = "<group>"; };
+		C42C0E5A2823D31E00A3940D /* lc3-isa.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "lc3-isa.pdf"; sourceTree = "<group>"; };
+		C42C0E5B2823F25800A3940D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 		C42C0E462823C5C900A3940D = {
 			isa = PBXGroup;
 			children = (
+				C42C0E5B2823F25800A3940D /* README.md */,
 				C42C0E512823C5C900A3940D /* lc3-vm */,
 				C42C0E502823C5C900A3940D /* Products */,
 			);
@@ -58,6 +62,8 @@
 			isa = PBXGroup;
 			children = (
 				C42C0E522823C5C900A3940D /* main.cpp */,
+				C42C0E592823CE8800A3940D /* 2048.obj */,
+				C42C0E5A2823D31E00A3940D /* lc3-isa.pdf */,
 			);
 			path = "lc3-vm";
 			sourceTree = "<group>";
