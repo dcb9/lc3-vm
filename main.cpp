@@ -231,11 +231,11 @@ void init(void) {
 
 void op_add(uint16_t instr) {
     // destination register (DR)
-    uint16_t r0 = instr >> 9 & 0b111;
+    uint16_t r0 = (instr >> 9) & 0b111;
     // first register (SR1)
-    uint16_t r1 = instr >> 6 & 0b111;
+    uint16_t r1 = (instr >> 6) & 0b111;
     // whether we are in immediate mode
-    uint16_t imm_flag = instr >> 5 & 0b1;
+    uint16_t imm_flag = (instr >> 5) & 0b1;
     if (imm_flag) {
         uint16_t imm5 = sign_extend(instr & 0b11111, 5);
         reg[r0] = reg[r1] + imm5;
@@ -248,7 +248,7 @@ void op_add(uint16_t instr) {
 
 void op_ldi(uint16_t instr) {
     // destination register (DR)
-    uint16_t r0 = instr >> 9 & 0b111;
+    uint16_t r0 = (instr >> 9) & 0b111;
     uint16_t pc_offset = sign_extend(instr & 0x1FF, 9);
     reg[r0] = mem_read( mem_read(reg[R_PC] + pc_offset) );
     update_flags(r0);
@@ -256,9 +256,9 @@ void op_ldi(uint16_t instr) {
 
 void op_ldr(uint16_t instr) {
     // destination register (DR)
-    uint16_t r0 = instr >> 9 & 0b111;
+    uint16_t r0 = (instr >> 9) & 0b111;
     // Base register (BaseR)
-    uint16_t r1 = instr >> 6 & 0b111;
+    uint16_t r1 = (instr >> 6) & 0b111;
     uint16_t offset = sign_extend(instr & 0x3F, 6);
     reg[r0] = mem_read(reg[r1] + offset);
     update_flags(r0);
@@ -288,22 +288,22 @@ void op_br(uint16_t instr) {
 
 void op_ld(uint16_t instr) {
     // destination register (DR)
-    uint16_t r = instr >> 9 & 0b111;
+    uint16_t r = (instr >> 9) & 0x7;
     uint16_t offset = sign_extend(instr & 0x1FF, 9);
     reg[r] = mem_read(reg[R_PC] + offset);
-    update_flags(reg[r]);
+    update_flags(r);
 }
 
 void op_st(uint16_t instr) {
     // destination register (DR)
-    uint16_t r = instr >> 9 & 0b111;
+    uint16_t r = (instr >> 9) & 0b111;
     uint16_t offset = sign_extend(instr & 0x1FF, 9);
     mem_write(reg[R_PC] + offset, reg[r]);
 }
 
 void op_jsr(uint16_t instr) {
     // destination register (DR)
-    uint16_t pc_offset_flag = instr >> 11 & 0b1;
+    uint16_t pc_offset_flag = (instr >> 11) & 1;
     reg[R_R7] = reg[R_PC]; // save the return address
     if (pc_offset_flag) {
         // JSR: PC-relative
@@ -311,7 +311,7 @@ void op_jsr(uint16_t instr) {
         reg[R_PC] += pc_offset;
     } else {
         // JSRR: Base Register addressing
-        uint16_t r = instr >> 6 & 0x7;
+        uint16_t r = (instr >> 6) & 0x7;
         reg[R_PC] = reg[r];
     }
 }
@@ -326,8 +326,8 @@ void op_str(uint16_t instr) {
 
 void op_not(uint16_t instr) {
     // destination register (DR)
-    uint16_t dr = instr >> 9 & 0x7;
-    uint16_t sr = instr >> 6 & 0x7;
+    uint16_t dr = (instr >> 9) & 0x7;
+    uint16_t sr = (instr >> 6) & 0x7;
     reg[dr] = ~reg[sr];
     update_flags(dr);
 }
@@ -347,7 +347,7 @@ void op_jmp(uint16_t instr) {
 
 void op_lea(uint16_t instr) {
     // destination register (DR)
-    uint16_t r0 = instr >> 9 & 0b111;
+    uint16_t r0 = (instr >> 9) & 0b111;
     uint16_t pc_offset = sign_extend(instr & 0x1FF, 9);
     reg[r0] = reg[R_PC] + pc_offset;
     update_flags(r0);
@@ -355,8 +355,6 @@ void op_lea(uint16_t instr) {
 
 void op_trap(uint16_t instr, bool * running) {
     reg[R_R7] = reg[R_PC];
-    putc('0', stdout);
-    fflush(stdout);
 
     switch (instr & 0xFF) {
     case TRAP_GETC:
